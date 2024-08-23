@@ -188,16 +188,16 @@ export default async function DemoPage() {
   const data = await getData();
 
   return (
-    <div className="flex flex-col sm:flex-row min-h-screen bg-gray-100">
+    <div className="flex flex-col sm:flex-row h-screen bg-gray-100">
       {/* Sidebar */}
       <Sidebar  />
 
       {/* Main Content */}
-      <div className="flex-1 container mx-auto py-6 sm:py-10 px-4 sm:px-6">
+      <div className="flex-1 p-4 sm:p-10">
         <Header />
 
         {/* Content Container */}
-        <div className="p-6 border rounded-lg bg-white">
+        <div className="bg-white p-6 rounded-lg shadow-md">
           {/* Button Section */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6">
             <Link href={'/employees/employee'}>

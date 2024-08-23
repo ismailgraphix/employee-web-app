@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { FaUsers, FaBuilding, FaClock, FaDollarSign, FaBriefcase, FaUser, FaUmbrellaBeach, FaClipboardList, FaCog, FaThLarge } from "react-icons/fa"; // Importing icons
+import { FaUsers, FaBuilding, FaClock,FaClipboardList, FaCog, FaThLarge } from "react-icons/fa"; // Importing icons
 import Link from 'next/link';
 
 const Sidebar = () => {
@@ -45,39 +45,6 @@ const Sidebar = () => {
             </p>
           </Link>
         </li>
-
-        <li>
-          <Link href="/payroll" passHref>
-            <p className="flex items-center text-gray-600 hover:text-indigo-600 cursor-pointer">
-              <FaDollarSign className="mr-2" /> Payroll
-            </p>
-          </Link>
-        </li>
-
-        <li>
-          <Link href="/dashboard" passHref>
-            <p className="flex items-center text-gray-600 hover:text-indigo-600 cursor-pointer">
-              <FaBriefcase className="mr-2" /> Jobs
-            </p>
-          </Link>
-        </li>
-
-        <li>
-          <Link href="/candidates" passHref>
-            <p className="flex items-center text-gray-600 hover:text-indigo-600 cursor-pointer">
-              <FaUser className="mr-2" /> Candidates
-            </p>
-          </Link>
-        </li>
-
-        <li>
-          <Link href="/leaves" passHref>
-            <p className="flex items-center text-gray-600 hover:text-indigo-600 cursor-pointer">
-              <FaUmbrellaBeach className="mr-2" /> Leaves
-            </p>
-          </Link>
-        </li>
-
         <li>
           <Link href="/holidays" passHref>
             <p className="flex items-center text-gray-600 hover:text-indigo-600 cursor-pointer">
