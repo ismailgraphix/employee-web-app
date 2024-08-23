@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import React, { useState } from "react";
 import Header from "@/components/header";
 import Link from "next/link";
-import FilterCard from "./_components/filter-card";
+
 
 async function getData(): Promise<Employees[]> {
   // Fetch data from your API here.
