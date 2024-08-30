@@ -4,6 +4,8 @@ import { FaBell } from "react-icons/fa";
 import ProfilePage from "./profile";
 import NotificationList from "./notification-button"; // Import the NotificationList component
 
+
+
 const Header = () => {
   const [showNotifications, setShowNotifications] = useState(false); // State to control notification list visibility
 

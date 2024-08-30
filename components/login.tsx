@@ -4,12 +4,14 @@ import bglogo from "../assets/campaign-creators-gMsnXqILjp4-unsplash.jpg";
 import { useState } from 'react';
 import Link from 'next/link';
 import axios from 'axios';
+import toast, { Toaster } from 'react-hot-toast';
 
 const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [isSubmitting, setSubmitting] = useState(false);
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
@@ -17,13 +19,17 @@ const Login = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    setSubmitting(true);
+
     try {
       const response = await axios.post('/api/auth/login', { email, password });
-      // Handle successful login here
-      console.log(response.data); // Token or other response data
+      toast.success('Login successful!');
       window.location.href = "/dashboard"; // Redirect to dashboard or other page
     } catch (err: any) {
       setError(err.response?.data?.message || 'An error occurred');
+      toast.error(err.response?.data?.message || 'An error occurred');
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -59,6 +65,7 @@ const Login = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="robertallen@example.com"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md text-base"
+                disabled={isSubmitting}
               />
             </div>
             <div className="mb-4 relative">
@@ -70,6 +77,7 @@ const Login = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="**********"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md text-base pr-10"
+                disabled={isSubmitting}
               />
               <button
                 type="button"
@@ -91,13 +99,15 @@ const Login = () => {
             </div>
             <button
               type="submit"
-              className="bg-[#7e57c2] text-white py-3 px-4 rounded-md w-full font-semibold hover:bg-[#6a42b2] transition-colors"
+              className={`bg-[#7e57c2] text-white py-3 px-4 rounded-md w-full font-semibold hover:bg-[#6a42b2] transition-colors ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
+              disabled={isSubmitting}
             >
-              Login
+              {isSubmitting ? 'Logging in...' : 'Login'}
             </button>
           </form>
         </div>
       </div>
+      <Toaster />
     </div>
   );
 };
