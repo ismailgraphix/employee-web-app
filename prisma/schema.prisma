@@ -8,17 +8,10 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid()) // Changed to String
+  id        Int      @id @default(autoincrement())
+  name      String?
   email     String   @unique
   password  String
-  role      Role     @relation(fields: [roleId], references: [id])
-  roleId    String   // Changed to String
+  role      String   @default("employee") // 'admin' or 'employee'
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Role {
-  id    String   @id @default(cuid()) // Changed to String
-  name  String  @unique
-  users User[]  @relation()
 }

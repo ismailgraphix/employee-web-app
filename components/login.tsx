@@ -1,11 +1,9 @@
-"use client"
-
 import Image from 'next/image';
 import logo from "../assets/logo.png";
 import bglogo from "../assets/campaign-creators-gMsnXqILjp4-unsplash.jpg";
 import { useState } from 'react';
 import Link from 'next/link';
-import { signIn } from 'next-auth/react';
+import axios from 'axios';
 
 const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -16,12 +14,18 @@ const Login = () => {
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-    // Redirect to dashboard without any backend validation
-    window.location.href = "/dashboard";
-  };
 
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    try {
+      const response = await axios.post('/api/auth/login', { email, password });
+      // Handle successful login here
+      console.log(response.data); // Token or other response data
+      window.location.href = "/dashboard"; // Redirect to dashboard or other page
+    } catch (err: any) {
+      setError(err.response?.data?.message || 'An error occurred');
+    }
+  };
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen">
