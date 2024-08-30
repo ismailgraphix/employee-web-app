@@ -125,11 +125,11 @@ const chartConfig = {
   },
   late: {
     label: "Late",
-    color: "hsl(var(--chart-1))",
+    color: "hsl(var(--chart-3))",
   },
   ontime: {
     label: "OnTime",
-    color: "hsl(var(--chart-2))",
+    color: "hsl(var(--chart-4))",
   },
 } satisfies ChartConfig
 

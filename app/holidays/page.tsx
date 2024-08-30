@@ -29,7 +29,8 @@ const Holiday = () => {
         setCurrentDate(new Date());
     }, []);
 
-    const isUpcoming = (holidayDate) => {
+    // Explicitly type the parameter as a string
+    const isUpcoming = (holidayDate: string): boolean => {
         const holiday = new Date(holidayDate);
         return holiday >= currentDate;
     };

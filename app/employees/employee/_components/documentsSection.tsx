@@ -2,6 +2,11 @@
 
 import React from 'react';
 
+
+interface FileUploadProps {
+  label: string;
+}
+
 const DocumentsSection = () => {
   return (
     <div className="p-6 border rounded-lg bg-white">
@@ -23,7 +28,7 @@ const DocumentsSection = () => {
   );
 };
 
-const FileUpload = ({ label }) => {
+const FileUpload : React.FC<FileUploadProps> = ({ label }) => {
   return (
     <div className="border-2 border-dashed border-blue-500 rounded-lg p-6 text-center">
       <div className="flex justify-center mb-4">
