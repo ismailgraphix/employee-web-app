@@ -12,6 +12,15 @@ model User {
   name      String?
   email     String   @unique
   password  String
-  role      String   @default("employee") // 'admin' or 'employee'
+  role      String   @default("employee") 
+  departments Department[]
   createdAt DateTime @default(now())
+}
+model Department {
+  id          Int     @id @default(autoincrement())
+  name        String
+  head        User    @relation(fields: [headId], references: [id])
+  headId      Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
