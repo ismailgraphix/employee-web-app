@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 
+// Handler for POST requests to create an employee
 export async function POST(request: NextRequest) {
   try {
     const {
@@ -48,11 +49,12 @@ export async function POST(request: NextRequest) {
     if (!department) {
       return NextResponse.json({ error: 'Department not found' }, { status: 404 });
     }
-    const parsedDateOfBirth = new Date(dateOfBirth);
-if (isNaN(parsedDateOfBirth.getTime())) {
-  return NextResponse.json({ error: 'Invalid date format for dateOfBirth' }, { status: 400 });
-}
 
+    // Validate dateOfBirth
+    const parsedDateOfBirth = new Date(dateOfBirth);
+    if (isNaN(parsedDateOfBirth.getTime())) {
+      return NextResponse.json({ error: 'Invalid date format for dateOfBirth' }, { status: 400 });
+    }
 
     // Create the new employee
     const employee = await db.employee.create({
@@ -78,5 +80,24 @@ if (isNaN(parsedDateOfBirth.getTime())) {
   } catch (error) {
     console.error('Error creating employee:', error);
     return NextResponse.json({ error: 'Failed to create employee' }, { status: 500 });
+  }
+}
+
+// Handler for GET requests to fetch all employees
+export async function GET(request: NextRequest) {
+  try {
+    // Fetch all employees from the database
+    const employees = await db.employee.findMany({
+      include: {
+        department: true, // Include related department data if needed
+        addedBy: true,   // Include the user who added the employee, if needed
+      },
+    });
+
+    // Return the employee data as JSON
+    return NextResponse.json(employees, { status: 200 });
+  } catch (error) {
+    console.error('Error fetching employees:', error);
+    return NextResponse.json({ error: 'Failed to fetch employees' }, { status: 500 });
   }
 }
