@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import toast from "react-hot-toast";
+import toast, { Toaster } from 'react-hot-toast';
 import axios from "axios";
 
 const AddDepartmentAction = () => {
@@ -69,6 +69,7 @@ const AddDepartmentAction = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+      <Toaster />
     </div>
   );
 };

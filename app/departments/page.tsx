@@ -7,6 +7,7 @@ import { DataTable } from "./_components/data-table";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/header";
 import AddDepartmentAction from "./_components/addDepartmentAction";
+import TopNavBar from "./_components/top-navbar";
 
 export default function DemoPage() {
   const [data, setData] = useState<Departments[]>([]);
@@ -47,7 +48,7 @@ export default function DemoPage() {
 
       {/* Main Content */}
       <div className="flex-1 p-4 sm:p-10">
-        <Header />
+        <TopNavBar />
 
         {/* Content Container */}
         <div className="bg-white p-6 rounded-lg shadow-md">

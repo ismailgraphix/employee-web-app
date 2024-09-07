@@ -8,19 +8,51 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  name      String?
-  email     String   @unique
-  password  String
-  role      String   @default("employee") 
+  id          Int        @id @default(autoincrement())
+  name        String?
+  email       String     @unique
+  password    String
+  role        String     @default("employee") 
   departments Department[]
-  createdAt DateTime @default(now())
+  employees   Employee[] @relation("AddedEmployees") // For tracking employees added by user
+  createdAt   DateTime   @default(now())
 }
+
 model Department {
-  id          Int     @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   name        String
-  head        User    @relation(fields: [headId], references: [id])
+  head        User      @relation(fields: [headId], references: [id])
   headId      Int
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  employees   Employee[] // Relationship to employees in the department
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model Employee {
+  id              Int       @id @default(autoincrement())
+  firstName       String
+  lastName        String
+  email           String    @unique
+  phoneNumber     String
+  address         String?
+  profilePicture  String?   // URL or path to the profile picture
+  documentLinks   String[]  // Array of document URLs or paths
+
+  // Personal Info
+  dateOfBirth     DateTime?
+  gender          String?
+  maritalStatus   String?
+
+  // Professional Info
+  position        String
+  startDate       DateTime
+  department      Department @relation(fields: [departmentId], references: [id])
+  departmentId    Int
+
+  // Track the user who added this employee
+  addedBy         User       @relation("AddedEmployees", fields: [addedById], references: [id])
+  addedById       Int
+
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
 }

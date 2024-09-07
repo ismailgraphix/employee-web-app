@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import toast from "react-hot-toast"; 
+import toast, { Toaster } from 'react-hot-toast';
 
 // Separate component to manage dialog and dropdown logic
 const DepartmentActions = ({ department }: { department: any }) => {

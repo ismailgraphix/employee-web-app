@@ -1,5 +1,6 @@
 import Image from 'next/image';
-import logo from "../assets/logo.png";
+import logo from "../assets/logo.png"
+import hide from "../assets/hide.png";
 import bglogo from "../assets/campaign-creators-gMsnXqILjp4-unsplash.jpg";
 import { useState } from 'react';
 import Link from 'next/link';
@@ -85,7 +86,7 @@ const Login = () => {
                 className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-transparent border-none cursor-pointer"
                 aria-label={passwordVisible ? 'Hide password' : 'Show password'}
               >
-                <Image src={logo} alt="Toggle Password" width={20} height={20} />
+                <Image src={hide} alt="Toggle Password" width={30} height={20} className='justify-center' />
               </button>
             </div>
             <div className="flex justify-between items-center mb-4">

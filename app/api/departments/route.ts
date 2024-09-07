@@ -1,25 +1,34 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { getToken } from 'next-auth/jwt';
-// import { jwtDecode } from 'jwt-decode';
+
+// Helper function to check if user is an admin based on their ID
+const isAdmin = async (userId: number) => {
+  const user = await db.user.findUnique({
+    where: { id: userId },
+    select: { role: true },
+  });
+  return user?.role === 'admin';
+};
 
 // POST route (Create a new department)
 export async function POST(request: NextRequest) {
-  const authHeader = request.headers.get('Authorization');
-  console.log('Authorization Header:', authHeader);
-
-  // Retrieve and check the token
+  // Retrieve and check the token to get the user ID
   const token = await getToken({ req: request });
-  console.log('Token:', token); // Log the token
 
-  // if (!token || typeof token === 'object') {
-  //   return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
-  // }
+  if (!token?.id) {
+    return NextResponse.json({ error: 'Unauthorized access' }, { status: 401 });
+  }
+
+  // Check if the user is an admin by querying the database
+  const userId = Number(token.id);
+  const isUserAdmin = await isAdmin(userId);
+
+  if (!isUserAdmin) {
+    return NextResponse.json({ error: 'Unauthorized access' }, { status: 403 });
+  }
 
   try {
-    // const decodedToken = jwtDecode(token as string);
-    // console.log('Decoded Token:', decodedToken);
-
     const { name, headId } = await request.json();
 
     if (!name || !headId || isNaN(Number(headId))) {
@@ -39,15 +48,21 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Failed to create department' }, { status: 500 });
   }
 }
-
-// GET route (Fetch all departments)
 export async function GET(request: NextRequest) {
-  // Retrieve and check the token
+  // Retrieve and check the token to get the user ID
   const token = await getToken({ req: request });
 
-  // if (!token || typeof token === 'object') {
-  //   return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  // }
+  if (!token?.id) {
+    return NextResponse.json({ error: 'Unauthorized access' }, { status: 401 });
+  }
+
+  // Check if the user is an admin by querying the database
+  const userId = Number(token.id);
+  const isUserAdmin = await isAdmin(userId);
+
+  if (!isUserAdmin) {
+    return NextResponse.json({ error: 'Unauthorized access' }, { status: 403 });
+  }
 
   try {
     const departments = await db.department.findMany({
