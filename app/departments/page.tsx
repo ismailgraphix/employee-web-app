@@ -24,9 +24,6 @@ export default function DemoPage() {
           },
         });
 
-        if (!res.ok) {
-          throw new Error('Failed to fetch departments');
-        }
 
         const departments = await res.json();
         setData(departments);
@@ -40,7 +37,7 @@ export default function DemoPage() {
     fetchDepartments();
   }, []); // Empty dependency array to run the effect only once on mount
 
-  if (loading) return <p>Loading...</p>;
+  
   if (error) return <p>{error}</p>;
 
   return (
