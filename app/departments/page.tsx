@@ -6,7 +6,7 @@ import { Departments, columns } from "./_components/columns";
 import { DataTable } from "./_components/data-table";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/header";
-import Link from "next/link";
+import AddDepartmentAction from "./_components/addDepartmentAction";
 
 export default function DemoPage() {
   const [data, setData] = useState<Departments[]>([]);
@@ -53,11 +53,7 @@ export default function DemoPage() {
         <div className="bg-white p-6 rounded-lg shadow-md">
           {/* Button Section */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6">
-            <Link href={'/departments/department'}>
-              <Button className="w-full sm:w-auto mb-4 sm:mb-0">
-                Add New Department
-              </Button>
-            </Link>
+                <AddDepartmentAction/>
             <Button variant="outline" className="w-full sm:w-auto">
               {/* Outline Button */}
             </Button>

@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { getToken } from 'next-auth/jwt';
-import {jwtDecode} from 'jwt-decode';
+// import { jwtDecode } from 'jwt-decode';
 
+// POST route (Create a new department)
 export async function POST(request: NextRequest) {
   const authHeader = request.headers.get('Authorization');
   console.log('Authorization Header:', authHeader);
@@ -11,25 +12,24 @@ export async function POST(request: NextRequest) {
   const token = await getToken({ req: request });
   console.log('Token:', token); // Log the token
 
-  //if (!token || typeof token === 'object') {
-    // If token is not a string, handle accordingly
-    //return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
- // }
+  // if (!token || typeof token === 'object') {
+  //   return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
+  // }
 
   try {
-    //const decodedToken = jwtDecode(token as string);
-    //console.log('Decoded Token:', decodedToken);
+    // const decodedToken = jwtDecode(token as string);
+    // console.log('Decoded Token:', decodedToken);
 
     const { name, headId } = await request.json();
 
-    if (!name || !headId) {
-      return NextResponse.json({ error: 'Missing fields' }, { status: 400 });
+    if (!name || !headId || isNaN(Number(headId))) {
+      return NextResponse.json({ error: 'Missing or invalid fields' }, { status: 400 });
     }
 
     const department = await db.department.create({
       data: {
         name,
-        headId,
+        headId: Number(headId), // Convert headId to an integer
       },
     });
 
@@ -40,18 +40,19 @@ export async function POST(request: NextRequest) {
   }
 }
 
+// GET route (Fetch all departments)
 export async function GET(request: NextRequest) {
   // Retrieve and check the token
   const token = await getToken({ req: request });
 
-  //if (!token || typeof token === 'object') {
-  //  return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
- // }
+  // if (!token || typeof token === 'object') {
+  //   return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  // }
 
   try {
     const departments = await db.department.findMany({
       include: {
-        head: true,
+        head: true, // Assuming each department has a relation to a head
       },
     });
 

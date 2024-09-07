@@ -54,7 +54,7 @@ const DepartmentActions = ({ department }: { department: any }) => {
             name,
             headId: department.headId,
           });
-          toast.success('Department updated successfully!');
+          toast.success('Login successful!');
           setEditOpen(false);
           
           window.location.reload();
@@ -92,7 +92,7 @@ const DepartmentActions = ({ department }: { department: any }) => {
             <DialogHeader>
               <DialogTitle>Edit department</DialogTitle>
               <DialogDescription>
-                Make changes to the department. Click save when you&apso;re done.
+                Make changes to the department. Click save when you&apos;re done.
               </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
@@ -133,7 +133,7 @@ const DepartmentActions = ({ department }: { department: any }) => {
             <DialogHeader>
               <DialogTitle>Delete department</DialogTitle>
               <DialogDescription>
-                Are you sure you want to delete the department `{department.name}`? This action cannot be undone.
+                Are you sure you want to delete the department {department.name}? This action cannot be undone.
               </DialogDescription>
             </DialogHeader>
             <DialogFooter>
