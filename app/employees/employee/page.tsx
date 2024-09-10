@@ -15,7 +15,9 @@ const AddEmployeePage = () => {
             <div className="flex-1 p-4 sm:p-10">
                 <TopNavBar />
                 <div className="mt-6">
-                    <Tabs setActiveTab={setActiveTab} />
+                    {/* Pass both setActiveTab and activeTab to Tabs */}
+                    <Tabs setActiveTab={setActiveTab} activeTab={activeTab} />
+                    {/* Pass activeTab to AddEmployeeForm */}
                     <AddEmployeeForm activeTab={activeTab} />
                 </div>
             </div>

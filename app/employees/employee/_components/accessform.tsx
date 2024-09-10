@@ -1,5 +1,8 @@
 "use client";
 
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import React from 'react';
 
 const AccountAccessForm = () => {
@@ -7,28 +10,34 @@ const AccountAccessForm = () => {
     <div className='p-6 border rounded-lg bg-white'> 
     <form className="bg-white p-6 rounded-lg ">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <input 
+      <Label> email address
+        <Input 
           type="email" 
           placeholder="Enter Email Address" 
           className="border p-3 rounded-md"
         />
-        <input 
+        </Label>
+        <Label>  Password
+        <Input 
           type="text" 
-          placeholder="Enter Slack ID" 
+          placeholder="Password" 
           className="border p-3 rounded-md"
         />
+        </Label>
         
-        <input 
-          type="text" 
-          placeholder="Enter Skype ID" 
-          className="border p-3 rounded-md"
-        />
+        <Label>  Select Employee Role
+        <Select>
+          <SelectTrigger id="role">
+            <SelectValue placeholder="Role" />
+          </SelectTrigger>
+          <SelectContent position="popper">
+            <SelectItem value="male">Employee</SelectItem>
+            <SelectItem value="female">Admin</SelectItem>
+          </SelectContent>
+        </Select>
+        </Label>
         
-        <input 
-          type="text" 
-          placeholder="Enter Github ID" 
-          className="border p-3 rounded-md"
-        />
+    
        
       </div>
       <div className="flex justify-end mt-6">

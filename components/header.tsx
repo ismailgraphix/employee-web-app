@@ -25,11 +25,7 @@ const Header = () => {
       <div className="flex items-center space-x-4">
         {/* Search Input */}
         <div className="relative">
-          <input
-            type="text"
-            placeholder="Search"
-            className="border border-gray-300 rounded-md pl-10 pr-4 py-2 focus:outline-none"
-          />
+          
           <svg
             className="absolute left-3 top-2/4 transform -translate-y-1/2 text-gray-400"
             fill="none"

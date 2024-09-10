@@ -1,8 +1,8 @@
 "use client"
-import { Checkbox } from "@/components/ui/checkbox"
-import { MoreHorizontal } from "lucide-react"
-import { ColumnDef } from "@tanstack/react-table"
-import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox";
+import { MoreHorizontal, ArrowUpDown } from "lucide-react";
+import { ColumnDef } from "@tanstack/react-table";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,22 +10,24 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { ArrowUpDown } from "lucide-react"
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
-export type Employees = {
-  id: string
-  status: "permanent" | "contract" | "internship" 
-  name: string
-  department: "human resource" | "registry" | "IT" 
-  designation: "software engineer" | "HR" | "designer" | "sales" | "record" | "registry"
-  type: "office" | "remote" 
- 
-}
+} from "@/components/ui/dropdown-menu";
 
+// This type is used to define the shape of our data.
+export type Employees = {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  department: {
+    name: string;
+  };
+  position: string;
+  status: string;
+  startDate: Date;
+};
+
+// Define the table columns
 export const columns: ColumnDef<Employees>[] = [
-  
   {
     id: "select",
     header: ({ table }) => (
@@ -47,46 +49,50 @@ export const columns: ColumnDef<Employees>[] = [
     ),
   },
   {
-    accessorKey: "name",
-    
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Email
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      )
-    },
-  },
-  {
     accessorKey: "id",
-    header: "Employee Id",
+    header: "Employee ID",
   },
   {
-    accessorKey: "department",
+    accessorKey: "firstName",
+    header: "First Name",
+  },
+  {
+    accessorKey: "lastName",
+    header: "Last Name",
+  },
+  {
+    accessorKey: "email",
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Email
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
+  },
+  {
+    accessorKey: "department.name",
     header: "Department",
   },
   {
-    accessorKey: "designation",
-    header: "Designation",
+    accessorKey: "position",
+    header: "Position",
   },
   {
     accessorKey: "status",
     header: "Status",
   },
- 
   {
-    accessorKey: "type",
-    header: "Type",
+    accessorKey: "startDate",
+    header: "Start Date",
+    cell: ({ row }) => new Date(row.original.startDate).toLocaleDateString(),
   },
   {
     id: "actions",
     cell: ({ row }) => {
-      const payment = row.original
- 
+      const employee = row.original;
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -98,17 +104,16 @@ export const columns: ColumnDef<Employees>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
+              onClick={() => console.log("Viewing details for", employee)}
             >
               View employee details
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>Edit employee</DropdownMenuItem>
             <DropdownMenuItem>Delete employee</DropdownMenuItem>
-           
           </DropdownMenuContent>
         </DropdownMenu>
-      )
+      );
     },
   },
-]
+];

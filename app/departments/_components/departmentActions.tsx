@@ -54,7 +54,7 @@ const DepartmentActions = ({ department }: { department: any }) => {
             name,
             headId: department.headId,
           });
-          toast.success('Login successful!');
+          toast.success('Department Edited successful!');
           setEditOpen(false);
           
           window.location.reload();
@@ -133,7 +133,7 @@ const DepartmentActions = ({ department }: { department: any }) => {
             <DialogHeader>
               <DialogTitle>Delete department</DialogTitle>
               <DialogDescription>
-                Are you sure you want to delete the department {department.name}? This action cannot be undone.
+                Are you sure you want to delete the department {department.name}? And make sure you reassign all employees under this department first. This action cannot be undone.
               </DialogDescription>
             </DialogHeader>
             <DialogFooter>
@@ -144,10 +144,11 @@ const DepartmentActions = ({ department }: { department: any }) => {
               >
                 {isLoading ? "Deleting..." : "Delete"}
               </Button>
-              <Button onClick={() => setDeleteOpen(false)}>Cancel</Button>
+              <Button onClick={() => setDeleteOpen(false)}>Cancel</Button> 
             </DialogFooter>
           </DialogContent>
         </Dialog>
+        <Toaster />
       </div>
     );
   };

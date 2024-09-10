@@ -1,77 +1,43 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
-import { getToken } from 'next-auth/jwt';
 
-// Helper function to check if user is an admin based on their ID
-const isAdmin = async (userId: number) => {
-  const user = await db.user.findUnique({
-    where: { id: userId },
-    select: { role: true },
-  });
-  return user?.role === 'admin';
-};
-
-// POST route (Create a new department)
+// Handler for POST requests to create a new department
 export async function POST(request: NextRequest) {
-  // Retrieve and check the token to get the user ID
-  const token = await getToken({ req: request });
-
-  if (!token?.id) {
-    return NextResponse.json({ error: 'Unauthorized access' }, { status: 401 });
-  }
-
-  // Check if the user is an admin by querying the database
-  const userId = Number(token.id);
-  const isUserAdmin = await isAdmin(userId);
-
-  if (!isUserAdmin) {
-    return NextResponse.json({ error: 'Unauthorized access' }, { status: 403 });
-  }
-
   try {
     const { name, headId } = await request.json();
 
+    // Validate required fields
     if (!name || !headId || isNaN(Number(headId))) {
       return NextResponse.json({ error: 'Missing or invalid fields' }, { status: 400 });
     }
 
+    // Create the department
     const department = await db.department.create({
       data: {
         name,
-        headId: Number(headId), // Convert headId to an integer
+        headId: Number(headId),
       },
     });
 
-    return NextResponse.json(department);
+    return NextResponse.json(department, { status: 201 });
   } catch (error) {
-    console.error('Error:', error);
+    console.error('Error creating department:', error);
     return NextResponse.json({ error: 'Failed to create department' }, { status: 500 });
   }
 }
+
+// Handler for GET requests to fetch departments along with their employees
 export async function GET(request: NextRequest) {
-  // Retrieve and check the token to get the user ID
-  const token = await getToken({ req: request });
-
-  if (!token?.id) {
-    return NextResponse.json({ error: 'Unauthorized access' }, { status: 401 });
-  }
-
-  // Check if the user is an admin by querying the database
-  const userId = Number(token.id);
-  const isUserAdmin = await isAdmin(userId);
-
-  if (!isUserAdmin) {
-    return NextResponse.json({ error: 'Unauthorized access' }, { status: 403 });
-  }
-
   try {
+    // Fetch all departments with their associated employees
     const departments = await db.department.findMany({
       include: {
-        head: true, // Assuming each department has a relation to a head
+        employees: true,  // Fetch the related employees in each department
+        head: true,       // Assuming 'head' is the head of the department
       },
     });
 
-    return NextResponse.json(departments);
+    return NextResponse.json(departments, { status: 200 });
   } catch (error) {
     console.error('Error fetching departments:', error);
     return NextResponse.json({ error: 'Failed to fetch departments' }, { status: 500 });

@@ -1,7 +1,5 @@
 "use client"
 import ProfilePage from "@/components/profile";
-import logo from "assets/logo.png"
-import Image from 'next/image';
 import Link from "next/link";
 import React from 'react';
 
@@ -15,11 +13,7 @@ const TopNavBar = () => {
         <p className="text-sm text-gray-500"><Link href={'/employees'}>All Employee </Link>&gt; Add New Employee</p>
       </div>
       <div className="flex items-center">
-        <input 
-          type="text" 
-          placeholder="Search" 
-          className="border border-gray-300 rounded-md p-2"
-        />
+        
        <ProfilePage/>
       </div>
     </div>

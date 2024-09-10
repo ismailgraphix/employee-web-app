@@ -1,15 +1,23 @@
 "use client";
 
 import React, { useState } from 'react';
-import { CiUser } from 'react-icons/ci';
+import { CiUser, CiFileOn, CiLock } from 'react-icons/ci';
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai'; // Icons for toggle
+import { BsBriefcase } from 'react-icons/bs';
 
 interface TabsProps {
-  setActiveTab: (tab: string) => void; // Explicitly define the type
+  setActiveTab: (tab: string) => void;
+  activeTab: string; // Track the active tab
 }
 
-const Tabs: React.FC<TabsProps> = ({ setActiveTab }) => {
+const Tabs: React.FC<TabsProps> = ({ setActiveTab, activeTab }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false); // State to handle the toggle
+
+  // Function to return the correct styles for active/inactive tabs
+  const getButtonClass = (tabName: string) =>
+    activeTab === tabName
+      ? "py-2 px-4 text-blue-500 border-b-4 border-blue-500 font-semibold" // Active styles
+      : "py-2 px-4 text-gray-500 border-b-2 border-transparent"; // Inactive styles
 
   return (
     <div className="mb-6">
@@ -27,28 +35,31 @@ const Tabs: React.FC<TabsProps> = ({ setActiveTab }) => {
         className={`flex flex-col sm:flex-row border-b transition-all duration-300 ease-in-out ${isMenuOpen ? 'block' : 'hidden'} sm:block`}
       >
         <button
-          className="py-2 px-4 text-blue-500 border-b-2 border-blue-500 font-semibold"
+          className={getButtonClass('personal')}
           onClick={() => setActiveTab('personal')}
         >
           <CiUser className="inline-block mr-2" />
           Personal Information
         </button>
         <button
-          className="py-2 px-4 text-gray-500"
+          className={getButtonClass('professional')}
           onClick={() => setActiveTab('professional')}
         >
+          <BsBriefcase className="inline-block mr-2" />
           Professional Information
         </button>
         <button
-          className="py-2 px-4 text-gray-500"
+          className={getButtonClass('documents')}
           onClick={() => setActiveTab('documents')}
         >
+          <CiFileOn className="inline-block mr-2" />
           Documents
         </button>
         <button
-          className="py-2 px-4 text-gray-500"
+          className={getButtonClass('access')}
           onClick={() => setActiveTab('access')}
         >
+          <CiLock className="inline-block mr-2" />
           Account Access
         </button>
       </div>

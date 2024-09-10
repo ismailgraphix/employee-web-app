@@ -12,6 +12,7 @@ export type Departments = {
   department: string
   head: {
     name: string; // Assuming the head has a name property
+    employees: string;
   };
   
  
@@ -63,6 +64,10 @@ export const columns: ColumnDef<Departments>[] = [
     accessorKey: "head.name",
     header: "Department Head",
     cell: ({ row }) => <div>{row.original.head?.name ?? 'N/A'}</div>,
+  },
+  {
+    accessorKey: "employees",
+    header: "Employees",
   },
   {
     id: "actions",
