@@ -11,6 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import EmployeeActions from "./_components/employeeAction";
 
 // This type is used to define the shape of our data.
 export type Employees = {
@@ -94,25 +95,7 @@ export const columns: ColumnDef<Employees>[] = [
     cell: ({ row }) => {
       const employee = row.original;
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => console.log("Viewing details for", employee)}
-            >
-              View employee details
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Edit employee</DropdownMenuItem>
-            <DropdownMenuItem>Delete employee</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <EmployeeActions employee={employee} />
       );
     },
   },

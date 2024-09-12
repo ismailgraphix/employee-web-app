@@ -1,50 +1,44 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import ImageUpload from '@/components/ui/image-upload';
-
-interface FileUploadProps {
-  label: string;
-}
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 const DocumentsSection = () => {
-  return (
-    <div className="p-6 border rounded-lg bg-white">
-      <div className="grid grid-cols-2 gap-6">
-        <FileUpload label="Upload Appointment Letter" />
-        <FileUpload label="Upload Salary Slips" />
-        <FileUpload label="Upload Relieving Letter" />
-        <FileUpload label="Upload Experience Letter" />
-      </div>
-      <div className="mt-9 flex justify-end">
-        <button className="bg-gray-200 text-gray-700 py-2 px-4 rounded-md">Cancel</button>
-        <button className="bg-blue-500 text-white py-2 px-4 rounded-md">Next</button>
-      </div>
-    </div>
-  );
-};
+  const [documents, setDocuments] = useState<string[]>([]);
+  const router = useRouter();
 
-const FileUpload: React.FC<FileUploadProps> = ({ label }) => {
-  const [fileUrls, setFileUrls] = React.useState<string[]>([]);
-
-  const handleFileUpload = (url: string) => {
-    setFileUrls([...fileUrls, url]);
+  const handleDocumentUpload = (url: string) => {
+    setDocuments([...documents, url]);
   };
 
-  const handleFileRemove = (url: string) => {
-    setFileUrls(fileUrls.filter(file => file !== url));
+  const handleDocumentRemove = (url: string) => {
+    setDocuments(documents.filter(doc => doc !== url));
+  };
+
+  const handleSubmit = async () => {
+    try {
+      await axios.post('/api/employees/documents', { documents });
+      console.log('Documents uploaded successfully');
+      router.push('/success'); // Redirect after completion
+    } catch (error) {
+      console.error('Error uploading documents:', error);
+    }
   };
 
   return (
-    <div className="border-2 border-dashed border-blue-500 rounded-lg p-6 text-center">
+    <div className='p-6 border rounded-lg bg-white'>
+      <h2 className="text-xl font-semibold mb-4">Upload Documents</h2>
       <ImageUpload
-        value={fileUrls}
-        onChange={handleFileUpload}
-        onRemove={handleFileRemove}
+        value={documents}
+        onChange={handleDocumentUpload}
+        onRemove={handleDocumentRemove}
       />
-      <p className="mb-2 text-gray-700">{label}</p>
-      <p className="text-blue-500 cursor-pointer">Drag & Drop or <span className="underline">choose file</span> to upload</p>
-      <p className="text-sm text-gray-500 mt-2">Supported formats: .jpeg, .pdf</p>
+      <div className="flex justify-end mt-6">
+        <button type="button" className="bg-gray-300 py-2 px-4 rounded-md mr-4">Cancel</button>
+        <button type="button" className="bg-indigo-500 text-white py-2 px-4 rounded-md" onClick={handleSubmit}>Finish</button>
+      </div>
     </div>
   );
 };

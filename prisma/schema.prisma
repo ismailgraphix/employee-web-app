@@ -7,53 +7,64 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id          Int        @id @default(autoincrement())
-  name        String?
-  email       String     @unique
-  password    String
-  role        String     @default("employee") 
-  departments Department[]
-  employees   Employee[] @relation("AddedEmployees") // For tracking employees added by user
-  createdAt   DateTime   @default(now())
+model Department {
+  id        Int        @id @default(autoincrement())
+  name      String
+  head      User       @relation("DepartmentHead", fields: [headId], references: [id])
+  headId    Int
+  employees Employee[] // Relationship to employees in the department
+
+  // New field to track the user who creates the department
+  createdBy Int
+  creator   User @relation("CreatedDepartments", fields: [createdBy], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
-model Department {
-  id          Int       @id @default(autoincrement())
-  name        String
-  head        User      @relation(fields: [headId], references: [id])
-  headId      Int
-  employees   Employee[] // Relationship to employees in the department
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+model User {
+  id       Int     @id @default(autoincrement())
+  name     String?
+  email    String  @unique
+  password String
+  role     String  @default("employee")
+
+  // Relation to track the departments the user is head of
+  departmentsHeaded Department[] @relation("DepartmentHead")
+
+  // Relation to track the departments the user created
+  departmentsCreated Department[] @relation("CreatedDepartments")
+
+  employees Employee[] @relation("AddedEmployees") // For tracking employees added by user
+  createdAt DateTime   @default(now())
 }
 
 model Employee {
-  id              Int       @id @default(autoincrement())
-  firstName       String
-  lastName        String
- 
-  email           String    @unique
-  phoneNumber     String
-  address         String?
-  profilePicture  String?   // URL or path to the profile picture
-  documentLinks   String[]  // Array of document URLs or paths
+  id        Int    @id @default(autoincrement())
+  firstName String
+  lastName  String
+
+  email          String   @unique
+  phoneNumber    String
+  address        String?
+  profilePicture String? // URL or path to the profile picture
+  documentLinks  String[] // Array of document URLs or paths
 
   // Personal Info
-  dateOfBirth     DateTime?
-  gender          String?
-  maritalStatus   String?
+  dateOfBirth   DateTime?
+  gender        String?
+  maritalStatus String?
 
   // Professional Info
-  position        String
-  startDate       DateTime
-  department      Department @relation(fields: [departmentId], references: [id])
-  departmentId    Int
+  position     String
+  startDate    DateTime
+  department   Department @relation(fields: [departmentId], references: [id])
+  departmentId Int
 
   // Track the user who added this employee
-  addedBy         User       @relation("AddedEmployees", fields: [addedById], references: [id])
-  addedById       Int
+  addedBy   User @relation("AddedEmployees", fields: [addedById], references: [id])
+  addedById Int
 
-  createdAt       DateTime   @default(now())
-  updatedAt       DateTime   @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

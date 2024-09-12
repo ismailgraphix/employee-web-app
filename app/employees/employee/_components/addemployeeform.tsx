@@ -34,13 +34,7 @@ const AddEmployeeForm: React.FC<AddEmployeeFormProps> = ({ activeTab }) => {
                     {/* Your form fields here */}
                 </div>
             )}
-            {activeTab === 'access' && (
-                <div> {/* Account Access Form */}
-                    
-                    <AccountAccessForm/>
-                    {/* Your form fields here */}
-                </div>
-            )}
+            
         </div>
     );
 };

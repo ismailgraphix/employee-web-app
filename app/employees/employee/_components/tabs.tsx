@@ -55,13 +55,7 @@ const Tabs: React.FC<TabsProps> = ({ setActiveTab, activeTab }) => {
           <CiFileOn className="inline-block mr-2" />
           Documents
         </button>
-        <button
-          className={getButtonClass('access')}
-          onClick={() => setActiveTab('access')}
-        >
-          <CiLock className="inline-block mr-2" />
-          Account Access
-        </button>
+        
       </div>
     </div>
   );

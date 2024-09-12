@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import Header from "@/components/header";
 import Link from "next/link";
 import axios from 'axios'; // Import Axios
+import AddEmployeeAction from "./employee/_components/addemployeeaction";
 
 // Fetch data from the API
 async function getData(): Promise<Employees[]> {
@@ -38,11 +39,7 @@ export default function DemoPage() {
         <Header />
         <div className="bg-white p-6 rounded-lg shadow-md">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6">
-            <Link href={'/employees/employee'}>
-              <Button className="w-full sm:w-auto mb-4 sm:mb-0">
-                Add New Employee
-              </Button>
-            </Link>
+                <AddEmployeeAction/>
             <Button variant="outline" className="w-full sm:w-auto"></Button>
           </div>
           <div className="overflow-x-auto">

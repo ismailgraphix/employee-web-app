@@ -1,21 +1,38 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 
-// Handler for POST requests to create a new department
+// POST Route: Create a new department
 export async function POST(request: NextRequest) {
   try {
     const { name, headId } = await request.json();
 
-    // Validate required fields
+    // Validate input
     if (!name || !headId || isNaN(Number(headId))) {
       return NextResponse.json({ error: 'Missing or invalid fields' }, { status: 400 });
     }
 
-    // Create the department
+    // Get the user information from the headers
+    const userHeader = request.headers.get('X-User');
+    console.log('User Header:', userHeader);  // Debugging log
+    const parsedUser = userHeader ? JSON.parse(userHeader) : null;
+
+    // Check if user is valid
+    if (!parsedUser || typeof parsedUser.userId !== 'number') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // Extract userId and validate
+    const userId = parsedUser.userId;
+    if (isNaN(userId)) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // Create a new department
     const department = await db.department.create({
       data: {
         name,
         headId: Number(headId),
+        createdBy: userId,
       },
     });
 
@@ -26,14 +43,27 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// Handler for GET requests to fetch departments along with their employees
+// GET Route: Fetch all departments
 export async function GET(request: NextRequest) {
   try {
-    // Fetch all departments with their associated employees
+    const userHeader = request.headers.get('X-User');
+    console.log('User Header:', userHeader);  // Debugging log
+    const parsedUser = userHeader ? JSON.parse(userHeader) : null;
+
+    // Ensure user is authenticated
+    if (!parsedUser || typeof parsedUser.userId !== 'number') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // Fetch all departments from the database
     const departments = await db.department.findMany({
-      include: {
-        employees: true,  // Fetch the related employees in each department
-        head: true,       // Assuming 'head' is the head of the department
+      select: {
+        id: true,
+        name: true,
+        headId: true,
+        createdAt: true,
+        updatedAt: true,
+        createdBy: true,
       },
     });
 

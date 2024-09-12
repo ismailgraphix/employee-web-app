@@ -5,7 +5,6 @@ import Sidebar from "@/components/sidebar";
 import { Departments, columns } from "./_components/columns";
 import { DataTable } from "./_components/data-table";
 import { Button } from "@/components/ui/button";
-import Header from "@/components/header";
 import AddDepartmentAction from "./_components/addDepartmentAction";
 import TopNavBar from "./_components/top-navbar";
 
