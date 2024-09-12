@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import Header from "@/components/header";
 import Link from "next/link";
 import axios from 'axios'; // Import Axios
-import AddEmployeeAction from "./employee/_components/addemployeeaction";
+import AddEmployeeAction from "./_components/addemployeeaction";
 
 // Fetch data from the API
 async function getData(): Promise<Employees[]> {
