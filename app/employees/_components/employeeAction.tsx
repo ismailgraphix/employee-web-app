@@ -137,7 +137,7 @@ const EmployeeActions = ({ employee }: { employee: any }) => {
           <DialogHeader>
             <DialogTitle>Edit Employee</DialogTitle>
             <DialogDescription>
-              Make changes to the employee details. Click save when you're done.
+              Make changes to the employee details. Click save when you&apos;re done.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
@@ -195,7 +195,8 @@ const EmployeeActions = ({ employee }: { employee: any }) => {
                   setProfilePicture(url ? [url] : []);
                   setIsPictureUploaded(true); // Set as uploaded
                 }}
-                //className="col-span-3"
+               
+                onRemove={() => {}}
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
