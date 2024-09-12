@@ -1,9 +1,6 @@
 "use client";
 
 import React, { useState } from 'react';
-import TopNavBar from './_components/top-navbar';
-import Tabs from './_components/tabs';
-import AddEmployeeForm from './_components/addemployeeform';
 import Sidebar from '@/components/sidebar';
 
 const AddEmployeePage = () => {
@@ -13,12 +10,10 @@ const AddEmployeePage = () => {
         <div className="flex">
             <Sidebar />
             <div className="flex-1 p-4 sm:p-10">
-                <TopNavBar />
+                
                 <div className="mt-6">
                     {/* Pass both setActiveTab and activeTab to Tabs */}
-                    <Tabs setActiveTab={setActiveTab} activeTab={activeTab} />
-                    {/* Pass activeTab to AddEmployeeForm */}
-                    <AddEmployeeForm activeTab={activeTab} />
+                    
                 </div>
             </div>
         </div>
