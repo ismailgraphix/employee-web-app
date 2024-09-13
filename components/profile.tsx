@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import profilePic from '../assets/picture.jpg';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import toast, { Toaster } from 'react-hot-toast';
@@ -10,6 +9,7 @@ interface User {
   name?: string;
   email: string;
   role: string;
+  profilePicture?: string; // Include profile picture
 }
 
 const ProfilePage = () => {
@@ -20,7 +20,8 @@ const ProfilePage = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get('/api/user'); // Adjust the API endpoint as necessary
+        const response = await axios.get('/api/user');
+        console.log("User data fetched:", response.data);  // Check if profilePicture is in response
         setUser(response.data);
       } catch (error) {
         console.error('Error fetching user data:', error);
@@ -46,19 +47,21 @@ const ProfilePage = () => {
 
   return (
     <div className="relative">
-      <div
-        className="flex items-center space-x-2 cursor-pointer"
-        onClick={toggleDropdown}
-      >
+      <div className="relative">
+      <div className="flex items-center space-x-2 cursor-pointer">
         <Image
-          src={profilePic}
+          src={user?.profilePicture || '/default-profile-pic.jpg'}  // Display user's profile picture or a fallback
           alt="User Profile"
           className="w-10 h-10 rounded-full object-cover"
+          width={40}
+          height={40}
         />
         <div>
           <p className="text-sm font-semibold">{user?.name || 'Guest'}</p>
           <p className="text-xs text-gray-500">{user?.role || 'Unknown'}</p>
         </div>
+      
+    </div>
         <svg
           className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${
             isDropdownOpen ? 'transform rotate-180' : ''

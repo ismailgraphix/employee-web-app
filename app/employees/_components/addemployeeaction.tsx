@@ -68,7 +68,7 @@ const AddEmployeeModal = () => {
       });
       toast.success('Employee added successfully!');
       setIsOpen(false); // Close the modal on success
-      router.refresh(); // Refresh the page
+      window.location.reload();  // Refresh the page
     } catch (error) {
       toast.error('Failed to add employee');
     } finally {

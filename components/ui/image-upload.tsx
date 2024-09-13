@@ -17,7 +17,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     disabled,
     onChange,
     onRemove,
-    value = [], // Ensure value defaults to an empty array
+    value = [],
 }) => {
     const [isMounted, setIsMounted] = useState(false);
 
@@ -26,7 +26,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     }, []);
 
     const onUpload = (result: any) => {
-        onChange(result.info.secure_url);
+        onChange(result.info.secure_url); // Pass the uploaded image URL to the parent component
     };
 
     if (!isMounted) {
@@ -36,7 +36,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     return (
         <div>
             <div className="mb-4 flex items-center gap-4">
-                {value.length > 0 ? ( // Check if value has elements before mapping
+                {value.length > 0 ? (
                     value.map((url) => (
                         <div key={url} className="relative w-[200px] h-[200px] rounded-md overflow-hidden">
                             <div className="z-10 absolute top-2 right-2">
@@ -48,14 +48,12 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                         </div>
                     ))
                 ) : (
-                    <p></p> // Optional: Message when no images are present
+                    <p>No images uploaded</p>
                 )}
             </div>
             <CldUploadWidget onUpload={onUpload} uploadPreset="lqydsdgn">
                 {({ open }) => {
-                    const onClick = () => {
-                        open();
-                    };
+                    const onClick = () => open();
                     return (
                         <Button type="button" disabled={disabled} variant="secondary" onClick={onClick}>
                             <ImagePlus className="h-4 w-4 mr-2" />
