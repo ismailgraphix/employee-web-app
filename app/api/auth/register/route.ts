@@ -6,7 +6,12 @@ import bcrypt from 'bcryptjs';
 const prisma = new PrismaClient();
 
 export async function POST(req: NextRequest) {
-  const { name, email, password, role } = await req.json();
+  const { name, email, password, role, profilePicture } = await req.json();
+
+  // Input validation
+  if (!name || !email || !password) {
+    return NextResponse.json({ message: 'Name, email, and password are required' }, { status: 400 });
+  }
 
   // Checking if the user already exists
   const existingUser = await prisma.user.findUnique({ where: { email } });
@@ -27,6 +32,7 @@ export async function POST(req: NextRequest) {
       email,
       password: hashedPassword,
       role: userRole,
+      profilePicture: profilePicture || null,  // Save profile picture if provided
     },
   });
 

@@ -37,6 +37,13 @@ const Sidebar = () => {
             </p>
           </Link>
         </li>
+        <li>
+          <Link href="/adduser" passHref>
+            <p className="flex items-center text-gray-600 hover:text-indigo-600 cursor-pointer">
+              <FaBuilding className="mr-2" /> Add User
+            </p>
+          </Link>
+        </li>
 
         <li>
           <Link href="/attendance" passHref>

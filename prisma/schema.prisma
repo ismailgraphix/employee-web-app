@@ -27,6 +27,7 @@ model User {
   name     String?
   email    String  @unique
   password String
+  profilePicture String?
   role     String  @default("employee")
 
   // Relation to track the departments the user is head of
@@ -47,7 +48,7 @@ model Employee {
   email          String   @unique
   phoneNumber    String
   address        String?
-  profilePicture String? // URL or path to the profile picture
+   // URL or path to the profile picture
   documentLinks  String[] // Array of document URLs or paths
 
   // Personal Info

@@ -1,13 +1,35 @@
-import Image from "next/image";
-import profilePic from "../assets/picture.jpg";
-import React, { useState } from "react";
-import Link from "next/link";
+import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
+import profilePic from '../assets/picture.jpg';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import toast, { Toaster } from 'react-hot-toast';
+import axios from 'axios';
+
+interface User {
+  name?: string;
+  email: string;
+  role: string;
+}
 
 const ProfilePage = () => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get('/api/user'); // Adjust the API endpoint as necessary
+        setUser(response.data);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+        toast.error('Failed to load user data');
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   const toggleDropdown = () => {
     setDropdownOpen(!isDropdownOpen);
@@ -34,12 +56,12 @@ const ProfilePage = () => {
           className="w-10 h-10 rounded-full object-cover"
         />
         <div>
-          <p className="text-sm font-semibold">Ismail Muhammad</p>
-          <p className="text-xs text-gray-500">Admin</p>
+          <p className="text-sm font-semibold">{user?.name || 'Guest'}</p>
+          <p className="text-xs text-gray-500">{user?.role || 'Unknown'}</p>
         </div>
         <svg
           className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${
-            isDropdownOpen ? "transform rotate-180" : ""
+            isDropdownOpen ? 'transform rotate-180' : ''
           }`}
           fill="none"
           stroke="currentColor"

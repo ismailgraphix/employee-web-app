@@ -16,7 +16,6 @@ const AddEmployeeModal = () => {
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [address, setAddress] = useState('');
-  const [profilePicture, setProfilePicture] = useState<string[]>([]); // Change to array for multiple images
   const [documentLinks, setDocumentLinks] = useState<string[]>([]);
   const [dateOfBirth, setDateOfBirth] = useState('');
   const [gender, setGender] = useState('');
@@ -57,7 +56,7 @@ const AddEmployeeModal = () => {
         email,
         phoneNumber,
         address,
-        profilePicture,
+        
         documentLinks,
         dateOfBirth,
         gender,
@@ -89,12 +88,7 @@ const AddEmployeeModal = () => {
           </DialogHeader>
           <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="profilePicture" className="text-right">Profile Picture</Label>
-              <ImageUpload
-                value={profilePicture}
-                onChange={(url) => setProfilePicture([url])} // Update state with the new URL
-                onRemove={(url) => setProfilePicture(profilePicture.filter(pic => pic !== url))}
-              />
+              
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="firstName" className="text-right">First Name</Label>

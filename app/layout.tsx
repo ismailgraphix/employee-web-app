@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Anek_Devanagari } from "next/font/google";
 
 import "./globals.css";
-import Sidebar from "@/components/sidebar";
+
 
 const inter = Anek_Devanagari({ subsets: ["latin"] });
 

@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
       email,
       phoneNumber,
       address,
-      profilePicture,
+     
       documentLinks,
       dateOfBirth,
       gender,
@@ -60,7 +60,7 @@ export async function POST(request: NextRequest) {
         email,
         phoneNumber,
         address,
-        profilePicture,
+       
         documentLinks,
         dateOfBirth: parsedDateOfBirth,
         gender,
